@@ -1,0 +1,59 @@
+.products {
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 40px;
+  }
+  &__card {
+    box-shadow: 1px 1px 10px gray;
+  }
+
+  &__imgs {
+    img {
+      width: 100%;
+      height: 250px;
+    }
+  }
+
+  &__info {
+    padding: 10px 20px;
+  }
+
+  &__btns {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0px 20px 20px;
+  }
+
+  &__btn-edit {
+    padding: 6px 20px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    color: white;
+    background-color: blue;
+  }
+
+  &__btn-delete {
+    padding: 6px 20px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    color: white;
+    background-color: red;
+  }
+
+  @media (max-width: 850px) {
+    &__cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 20px;
+    }
+  }
+  @media (max-width: 600px) {
+    &__cards {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      grid-gap: 20px;
+    }
+  }
+}

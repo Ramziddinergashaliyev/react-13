@@ -1,0 +1,105 @@
+.header {
+  background-color: aquamarine;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin-bottom: 30px;
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0px;
+  }
+
+  &__nav__logo {
+    font-size: 30px;
+    font-weight: 600;
+  }
+
+  &__nav__item {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+  }
+
+  &__nav__btn {
+    padding: 10px 30px;
+    border-radius: 5px;
+    background-color: blue;
+    color: white;
+    border: 1px solid transparent;
+    transition: 0.6s;
+  }
+
+  &__nav__link {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  &__nav__link.active {
+    color: red;
+  }
+
+  &__nav__btns {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__nav__bars {
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    display: none;
+    img {
+      width: 20px;
+    }
+  }
+
+  &__nav__close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 20px;
+    color: red;
+    display: none;
+  }
+
+  &__nav__btn:hover {
+    background-color: white;
+    color: blue;
+    border: 1px solid blue;
+  }
+
+  @media (max-width: 600px) {
+    &__nav__item {
+      position: fixed;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      left: -100%;
+      top: 0;
+      background-color: white;
+      box-shadow: 1px 1px 10px gray;
+      transition: 0.6s;
+    }
+
+    &__show {
+      left: 0;
+    }
+
+    &__nav__close {
+      display: block;
+    }
+
+    &__nav__bars {
+      display: block;
+    }
+  }
+}
