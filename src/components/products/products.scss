@@ -8,6 +8,11 @@
     box-shadow: 1px 1px 10px gray;
   }
 
+  &__card:hover {
+    transform: scale(1.015);
+    transition: 0.3s;
+  }
+
   &__imgs {
     img {
       width: 100%;

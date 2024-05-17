@@ -1,28 +1,43 @@
 import { toast } from "react-toastify";
 import axios from "../../../api";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-let initionalState = {
-  img: "",
-  name: "",
-  price: "",
-  desc: "",
-};
+// let initionalState = {
+//   img: "",
+//   name: "",
+//   price: "",
+//   desc: "",
+// };
 
 function CreateProducts() {
-  const [product, setProduct] = useState(initionalState);
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate;
+
+  const img = useRef();
+  const name = useRef();
+  const price = useRef();
+  const desc = useRef();
 
   const hundleCreate = (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const productData = {
+      img: img.current.value,
+      name: name.current.value,
+      price: price.current.value,
+      desc: desc.current.value,
+    };
+
     axios
-      .post(`/products`, product)
+      .post(`/products`, productData)
       .then((res) => {
         toast.success("Malumot Qo'shildi");
-        setProduct(initionalState);
+        img.current.value = "";
+        name.current.value = "";
+        price.current.value = "";
+        desc.current.value = "";
         navigate("/admin/ManageProducts");
         console.log(res);
       })
@@ -33,43 +48,13 @@ function CreateProducts() {
   return (
     <>
       <div>
-        <form className="form" action="">
+        <form onSubmit={hundleCreate} className="form" action="">
           <h1>Products</h1>
-          <input
-            value={product.img}
-            onChange={(e) =>
-              setProduct((prev) => ({ ...prev, img: e.target.value }))
-            }
-            placeholder="img"
-            type="url"
-          />
-          <input
-            value={product.name}
-            onChange={(e) =>
-              setProduct((prev) => ({ ...prev, name: e.target.value }))
-            }
-            placeholder="name"
-            type="text"
-          />
-          <input
-            value={product.price}
-            onChange={(e) =>
-              setProduct((prev) => ({ ...prev, price: e.target.value }))
-            }
-            placeholder="price"
-            type="number"
-          />
-          <input
-            value={product.desc}
-            onChange={(e) =>
-              setProduct((prev) => ({ ...prev, desc: e.target.value }))
-            }
-            placeholder="desc"
-            type="text"
-          />
-          <button disabled={loading} onClick={hundleCreate}>
-            {loading ? "loading.." : "create"}
-          </button>
+          <input required ref={img} placeholder="img" type="url" />
+          <input required ref={name} placeholder="name" type="text" />
+          <input required ref={price} placeholder="price" type="number" />
+          <input required ref={desc} placeholder="desc" type="text" />
+          <button disabled={loading}>{loading ? "loading.." : "create"}</button>
         </form>
       </div>
     </>

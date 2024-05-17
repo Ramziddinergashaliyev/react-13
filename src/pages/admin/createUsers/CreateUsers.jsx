@@ -1,29 +1,39 @@
 import { toast } from "react-toastify";
 import axios from "../../../api";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-let initionalState = {
-  img: "",
-  firstname: "",
-  lastname: "",
-  phoneNumber: "",
-  address: "",
-};
-
 function CreateUsers() {
-  const [user, setUser] = useState(initionalState);
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
+
+  const img = useRef();
+  const firstname = useRef();
+  const lastname = useRef();
+  const phoneNumber = useRef();
+  const address = useRef();
 
   const hundleCreate = (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const usersData = {
+      img: img.current.value,
+      firstname: firstname.current.value,
+      lastname: lastname.current.value,
+      phoneNumber: phoneNumber.current.value,
+      address: address.current.value,
+    };
+
     axios
-      .post(`/users`, user)
+      .post(`/users`, usersData)
       .then((res) => {
         toast.success("Malumot Qoshildi");
-        setUser(initionalState);
+        img.current.value = "";
+        firstname.current.value = "";
+        lastname.current.value = "";
+        phoneNumber.current.value = "";
+        address.current.value = "";
         navigate("/admin/manageUsers");
         console.log(res);
       })
@@ -32,51 +42,19 @@ function CreateUsers() {
 
   return (
     <div>
-      <form className="form" action="">
+      <form onSubmit={hundleCreate} className="form" action="">
         <h1>Users</h1>
+        <input required ref={img} placeholder="img" type="url" />
+        <input required ref={firstname} placeholder="firstname" type="text" />
+        <input required ref={lastname} placeholder="lastname" type="text" />
         <input
-          value={user.img}
-          onChange={(e) =>
-            setUser((prev) => ({ ...prev, img: e.target.value }))
-          }
-          placeholder="img"
-          type="url"
-        />
-        <input
-          value={user.firstname}
-          onChange={(e) =>
-            setUser((prev) => ({ ...prev, firstname: e.target.value }))
-          }
-          placeholder="firstname"
-          type="text"
-        />
-        <input
-          value={user.lastname}
-          onChange={(e) =>
-            setUser((prev) => ({ ...prev, lastname: e.target.value }))
-          }
-          placeholder="lastname"
-          type="text"
-        />
-        <input
-          value={user.phoneNumber}
-          onChange={(e) =>
-            setUser((prev) => ({ ...prev, phoneNumber: +e.target.value }))
-          }
+          required
+          ref={phoneNumber}
           placeholder="phoneNumber"
           type="number"
         />
-        <input
-          value={user.address}
-          onChange={(e) =>
-            setUser((prev) => ({ ...prev, address: e.target.value }))
-          }
-          placeholder="address"
-          type="text"
-        />
-        <button disabled={loading} onClick={hundleCreate}>
-          {loading ? "Loading..." : "Create"}
-        </button>
+        <input required ref={address} placeholder="address" type="text" />
+        <button disabled={loading}>{loading ? "Loading..." : "Create"}</button>
       </form>
     </div>
   );

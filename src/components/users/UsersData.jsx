@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "./userData.scss";
 import axios from "../../api";
+import EditUsersModule from "../editUsersModule/EditUsersModule";
 
 function UsersData({ data, isBtns, setReload }) {
+  const [usersEdit, setUsersEdit] = useState(null);
   const hundleDelete = (id) => {
     axios
       .delete(`/users/${id}`)
       .then((res) => {
-        setReload(false);
+        setReload((prev) => !prev);
         console.log(res);
       })
       .catch((err) => console.log(err));
+  };
+
+  const hundleEdit = (product) => {
+    setUsersEdit(product);
   };
 
   let usersData = data?.map((el) => (
@@ -27,7 +33,9 @@ function UsersData({ data, isBtns, setReload }) {
       </div>
       {isBtns ? (
         <div className="users__btns">
-          <button className="users__btn-edit">Edit</button>
+          <button onClick={() => hundleEdit(el)} className="users__btn-edit">
+            Edit
+          </button>
           <button
             onClick={() => hundleDelete(el.id)}
             className="users__btn-delete"
@@ -43,6 +51,15 @@ function UsersData({ data, isBtns, setReload }) {
   return (
     <section className="users container">
       <div className="users__cards">{usersData}</div>;
+      {usersEdit ? (
+        <EditUsersModule
+          setData={setUsersEdit}
+          data={usersEdit}
+          setReload={setReload}
+        />
+      ) : (
+        <></>
+      )}
     </section>
   );
 }
