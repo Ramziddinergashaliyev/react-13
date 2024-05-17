@@ -6,6 +6,8 @@
   }
   &__card {
     box-shadow: 1px 1px 10px gray;
+    border-radius: 5px;
+    overflow: hidden;
   }
 
   &__card:hover {
